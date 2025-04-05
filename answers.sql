@@ -16,7 +16,7 @@ CROSS APPLY STRING_SPLIT(O.Products, ',');
 
 SELECT * FROM OrderProducts; /*Display table content*/
 /*END QUESTION 1*/
-
+/*****************************************************************************/
 /*BEGIN QUESTION 2*/
 /*Create a new table for Customers*/
 CREATE TABLE Customers (
