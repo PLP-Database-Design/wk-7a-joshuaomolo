@@ -1,4 +1,4 @@
---QUESTION 1
+/*BEGIN QUESTION 1*/
 /*Creare new table*/
 CREATE TABLE OrderProducts (
     OrderID INT,
@@ -8,16 +8,16 @@ CREATE TABLE OrderProducts (
 
 INSERT INTO OrderProducts (OrderID, CustomerName, Product)
 SELECT
-    pd.OrderID,
-    pd.CustomerName,
+    O.OrderID,
+    O.CustomerName,
     TRIM(value) AS Product
-FROM ProductDetail pd
-CROSS APPLY STRING_SPLIT(pd.Products, ',');
+FROM ProductDetail O
+CROSS APPLY STRING_SPLIT(O.Products, ',');
 
 SELECT * FROM OrderProducts; /*Display table content*/
+/*END QUESTION 1*/
 
-
---QUESTION 2
+/*BEGIN QUESTION 2*/
 /*Create a new table for Customers*/
 CREATE TABLE Customers (
     CustomerID INT PRIMARY KEY AUTO_INCREMENT, -- Assuming an auto-incrementing ID
@@ -62,3 +62,4 @@ SELECT * FROM Customers;
 SELECT * FROM Orders;
 /*Display orderItems*/
 SELECT * FROM OrderItems;
+/*END QUESTION 2*/
