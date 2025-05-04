@@ -1,65 +1,77 @@
-/*BEGIN QUESTION 1*/
-/*Creare new table*/
-CREATE TABLE OrderProducts (
-    OrderID INT,
-    CustomerName VARCHAR(255),
-    Product VARCHAR(255)
+ -- Q1
+
+CREATE TABLE ProductDetail (
+
+    OrderID INT,
+
+    CustomerName VARCHAR(100),
+
+    Products VARCHAR(100)
+
 );
 
-INSERT INTO OrderProducts (OrderID, CustomerName, Product)
-SELECT
-    O.OrderID,
-    O.CustomerName,
-    TRIM(value) AS Product
-FROM ProductDetail O
-CROSS APPLY STRING_SPLIT(O.Products, ',');
+INSERT INTO ProductDetail(OrderID, CustomerName, Products)
 
-SELECT * FROM OrderProducts; /*Display table content*/
-/*END QUESTION 1*/
-/*****************************************************************************/
-/*BEGIN QUESTION 2*/
-/*Create a new table for Customers*/
-CREATE TABLE Customers (
-    CustomerID INT PRIMARY KEY AUTO_INCREMENT, -- Assuming an auto-incrementing ID
-    CustomerName VARCHAR(255)
-);
+VALUES
 
-/*Create a new table for Orders*/
+(101, 'John Doe', 'Laptop'),
+
+(101, 'John Doe', 'Mouse'),
+
+(102, 'Jane Smith', 'Tablet'),
+
+(102, 'Jane Smith', 'Keyboard'),
+
+(102, 'Jane Smith', 'Mouse'),
+
+(103, 'Emily Clark', 'Phone');
+
+-- Q2
+
 CREATE TABLE Orders (
-    OrderID INT PRIMARY KEY,
-    CustomerID INT,
-    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+
+    OrderID INT PRIMARY KEY,
+
+    CustomerName VARCHAR(100)
+
 );
 
-/*table for OrderItems*/
-CREATE TABLE OrderItems (
-    OrderItemID INT PRIMARY KEY AUTO_INCREMENT,
-    OrderID INT,
-    Product VARCHAR(255),
-    Quantity INT,
-    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+INSERT INTO Orders (OrderID, CustomerName)
+
+VALUES
+
+(101, 'John Doe'),
+
+(102, 'Jane Smith'),
+
+(103, 'Emily Clark');
+
+CREATE TABLE Product (
+
+    OrderID INT,
+
+    Product VARCHAR(100),
+
+    Quantity INT,
+
+    PRIMARY KEY (OrderID, Product),
+
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+
 );
 
-/*Customers table*/
-INSERT INTO Customers (CustomerName)
-SELECT DISTINCT CustomerName
-FROM OrderDetails;
+INSERT INTO Product (OrderID, Product, Quantity)
 
-/*Orders table*/
-INSERT INTO Orders (OrderID, CustomerID)
-SELECT DISTINCT od.OrderID, c.CustomerID
-FROM OrderDetails od
-JOIN Customers c ON od.CustomerName = c.CustomerName;
+VALUES
 
-/*OrderItems table*/
-INSERT INTO OrderItems (OrderID, Product, Quantity)
-SELECT OrderID, Product, Quantity
-FROM OrderDetails;
+(101, 'Laptop', 2),
 
-/*Display cutomers*/
-SELECT * FROM Customers;
-/*Display orders*/
-SELECT * FROM Orders;
-/*Display orderItems*/
-SELECT * FROM OrderItems;
-/*END QUESTION 2*/
+(101, 'Mouse', 1),
+
+(102, 'Tablet', 3),
+
+(102, 'Keyboard', 1),
+
+(102, 'Mouse', 2),
+
+(103, 'Phone', 1);
